@@ -1,0 +1,71 @@
+-- Création des tables
+CREATE TABLE user
+(
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    firstname     VARCHAR(255),
+    lastname      VARCHAR(255),
+    email         VARCHAR(255),
+    password      VARCHAR(255),
+    balance       FLOAT,
+    creation_date TIMESTAMP
+);
+
+CREATE TABLE connection
+(
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user1_id      BIGINT,
+    user2_id      BIGINT,
+    creation_date TIMESTAMP,
+    FOREIGN KEY (user1_id) REFERENCES user (id),
+    FOREIGN KEY (user2_id) REFERENCES user (id)
+);
+
+CREATE TABLE transaction
+(
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    description VARCHAR(255),
+    amount      FLOAT,
+    sender_id   BIGINT,
+    receiver_id BIGINT,
+    send_date   TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES user (id),
+    FOREIGN KEY (receiver_id) REFERENCES user (id)
+);
+
+-- Insertion des données
+INSERT INTO user (firstname, lastname, email, password, balance, creation_date)
+VALUES ('Jean', 'Dupont', 'jean.dupont@gmail.com', 'P@s5W0rD#1xA', 1000.00, '2022-04-30 10:00:00'),
+       ('Marie', 'Durand', 'marie.durand@gmail.com', 'M@r1eD#2rAnD', 1500.00, '2022-08-15 14:30:00'),
+       ('Pierre', 'Martin', 'pierre.martin@gmail.com', 'p13rR3M@rT!n', 2000.00, '2022-11-20 09:45:00'),
+       ('Alice', 'Lefebvre', 'alice.lefebvre@gmail.com', 'Al1C3#L3F3B', 2500.00, '2022-06-07 17:20:00'),
+       ('Guillaume', 'Moreau', 'guillaume.moreau@gmail.com', 'G&U1L@U^^3M0', 1800.00, '2022-10-12 11:10:00'),
+       ('Sophie', 'Petit', 'sophie.petit@gmail.com', 'S0ph1eP3T1T#', 1200.00, '2023-02-02 16:00:00'),
+       ('Maxime', 'Roussel', 'maxime.roussel@gmail.com', 'M@X1M3!R0uS', 900.00, '2022-07-22 19:35:00'),
+       ('Camille', 'Girard', 'camille.girard@gmail.com', 'C@M1Ll3_G1r', 2200.00, '2023-01-10 08:50:00'),
+       ('Alexandre', 'Leroy', 'alexandre.leroy@gmail.com', 'Al3X@NdR3L3', 2100.00, '2022-05-27 13:15:00'),
+       ('Lucie', 'Lemaire', 'lucie.lemaire@gmail.com', 'LuC1E-L3M@I', 1700.00, '2022-09-30 18:25:00');
+
+INSERT INTO connection (user1_id, user2_id, creation_date)
+VALUES (1, 2, '2022-05-01 15:00:00'),
+       (3, 4, '2022-06-15 14:30:00'),
+       (5, 6, '2022-10-15 10:20:00'),
+       (7, 8, '2022-08-01 11:50:00'),
+       (9, 10, '2022-10-01 09:15:00'),
+       (1, 9, '2022-06-10 17:30:00'),
+       (4, 7, '2022-08-30 13:45:00');
+
+INSERT INTO transaction (description, amount, sender_id, receiver_id, send_date)
+VALUES ('Paiement restaurant', 50.00, 1, 2, '2022-05-02 20:00:00'),
+       ('Remboursement billet train', 35.00, 2, 1, '2022-05-15 14:30:00'),
+       ('Achat matériel informatique', 200.00, 3, 4, '2022-06-20 10:45:00'),
+       ('Paiement loyer', 800.00, 5, 6, '2022-11-01 17:30:00'),
+       ('Cadeau anniversaire', 100.00, 7, 8, '2022-08-15 21:00:00'),
+       ('Participation cadeau commun', 40.00, 9, 10, '2022-10-10 19:15:00'),
+       ('Transfert d\'argent', 150.00, 4, 7, '2022-09-05 14:00:00'),
+       ('Paiement facture électricité', 75.00, 8, 7, '2022-09-10 16:30:00'),
+       ('Remboursement frais de transport', 30.00, 6, 5, '2022-11-05 11:45:00'),
+       ('Achat en ligne', 120.00, 10, 9, '2022-10-20 20:15:00'),
+       ('Achat vêtements', 60.00, 1, 9, '2022-06-12 15:30:00'),
+       ('Paiement abonnement sport', 45.00, 3, 4, '2022-06-25 18:00:00'),
+       ('Paiement facture internet', 30.00, 4, 7, '2022-09-07 14:15:00'),
+       ('Achat jeux vidéo', 50.00, 6, 5, '2022-11-08 21:45:00');
