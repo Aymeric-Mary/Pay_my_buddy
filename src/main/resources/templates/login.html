@@ -3,23 +3,23 @@
     <div class="border border-dark rounded-3 w-50 p-3 mx-auto d-flex flex-column">
         <img class="d-block mx-auto mb-3" th:src="@{img/logo.png}" alt="Logo of pay my buddy" style="width: 200px">
         <div th:if="${param.error}">
-            <p class="alert alert-danger text-center">Identifiants invalides</p>
+            <p id="wrong-credentials" class="alert alert-danger text-center">Identifiants invalides</p>
         </div>
         <div th:if="${param.logout}">
-            <p class="alert alert-success text-center">Vous avez été déconnecté avec succès</p>
+            <p id="success-logout" class="alert alert-success text-center">Vous avez été déconnecté avec succès</p>
         </div>
         <form th:action="@{/login}" method="post">
             <div class="mb-3 w-100">
-                <input type="text" class="form-control" id="emailInput" placeholder="Email" name="username"
+                <input type="text" class="form-control" id="email" placeholder="Email" name="username"
                        autofocus="autofocus">
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             </div>
             <div class="form-check mb-5 mt-3 d-flex justify-content-center">
                 <div>
-                    <input class="form-check-input" type="checkbox" name="remember-me" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">
+                    <input class="form-check-input" type="checkbox" name="remember-me" id="remember-me">
+                    <label class="form-check-label" for="remember-me">
                         Remember me
                     </label>
                 </div>

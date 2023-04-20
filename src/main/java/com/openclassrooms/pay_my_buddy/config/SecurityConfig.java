@@ -1,5 +1,6 @@
 package com.openclassrooms.pay_my_buddy.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +11,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    AppConfig appConfig;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -35,7 +39,7 @@ public class SecurityConfig {
                 .permitAll()
                 .and()
                 .rememberMe()
-                .tokenValiditySeconds(30*24*60*60);
+                .tokenValiditySeconds(appConfig.getNbDaysRememberMe() * 24 * 60 * 60);
         return http.build();
     }
 

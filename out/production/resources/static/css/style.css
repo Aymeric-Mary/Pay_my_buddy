@@ -1,0 +1,16 @@
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: cornflowerblue;
+}
+
+.table tr{
+    height:100px;
+}
+
+.table tr th,td{
+    vertical-align: middle;
+}

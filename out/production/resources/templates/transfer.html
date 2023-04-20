@@ -1,0 +1,95 @@
+<div th:replace="fragments/header"></div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
+    <div class="container-fluid d-fle justify-content-between">
+        <img class="d-block" th:src="@{img/logo.png}" alt="Logo of pay my buddy" style="width: 200px">
+        <div class="d-flex justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Transfer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Log off</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav class="bg-light p-3" aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Transfer</li>
+    </ol>
+</nav>
+<div class="container">
+    <div class="d-flex justify-content-between">
+        <h2>Send Money</h2>
+        <button class="btn btn-primary">Add Connection</button>
+    </div>
+    <div class="bg-light d-flex justify-content-center py-5">
+        <div class="d-flex justify-content-center w-50">
+            <div class="dropdown me-5">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Select a connection
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Connection 1</a></li>
+                    <li><a class="dropdown-item" href="#">Connection 2</a></li>
+                    <li><a class="dropdown-item" href="#">Connection 3</a></li>
+                </ul>
+            </div>
+            <div class="input-group me-5">
+                <input type="number" min="0" class="form-control" id="amountInput" placeholder="0 €">
+            </div>
+            <button class="btn btn-success" style="padding-left: 50px; padding-right: 50px">Pay</button>
+        </div>
+    </div>
+    <h2>My Transcations</h2>
+    <table class="table table-striped text-center border border-dark border-3">
+        <thead>
+        <tr class="bg-success text-light">
+            <th scope="col">Connections</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="py-3">
+            <th>Hayley</th>
+            <td>Restaurant bill share</td>
+            <td>10€</td>
+        </tr>
+        <tr>
+            <th>Clara</th>
+            <td>Trip money</td>
+            <td>25€</td>
+        </tr>
+        <tr>
+            <th>Smith</th>
+            <td>Movie tickets</td>
+            <td>8€</td>
+        </tr>
+        </tbody>
+    </table>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#"><<</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">>></a></li>
+        </ul>
+    </nav>
+</div>
+<div th:replace="fragments/footer"></div>
