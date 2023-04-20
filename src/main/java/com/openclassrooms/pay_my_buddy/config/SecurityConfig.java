@@ -17,7 +17,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers(
-                                        new AntPathRequestMatcher("/login"),
                                         new AntPathRequestMatcher("/css/**"),
                                         new AntPathRequestMatcher("/img/**")
                                 )
@@ -28,7 +27,12 @@ public class SecurityConfig {
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login");
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .permitAll();
         return http.build();
     }
 
