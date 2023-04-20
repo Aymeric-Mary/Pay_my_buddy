@@ -32,7 +32,10 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .permitAll();
+                .permitAll()
+                .and()
+                .rememberMe()
+                .tokenValiditySeconds(30*24*60*60);
         return http.build();
     }
 
