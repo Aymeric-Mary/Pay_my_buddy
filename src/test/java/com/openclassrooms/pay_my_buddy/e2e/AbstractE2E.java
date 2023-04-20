@@ -5,7 +5,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -26,6 +28,7 @@ public abstract class AbstractE2E extends DataTools {
     public void setUp() {
         driver = new ChromeDriver();
         baseUrl = "http://localhost:" + port;
+        userRepository.deleteAll();
     }
 
     @AfterEach
@@ -33,6 +36,23 @@ public abstract class AbstractE2E extends DataTools {
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    protected void login(){
+        login(false);
+    }
+
+    protected void login(Boolean rememberMe){
+        driver.get(baseUrl + "/login");
+        WebElement inputEmail = driver.findElement(By.id("email"));
+        WebElement inputPassword = driver.findElement(By.id("password"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button[type=submit]"));
+        WebElement rememberMeCheckbox = driver.findElement(By.id("remember-me"));
+
+        inputEmail.sendKeys("test@gmail.com");
+        inputPassword.sendKeys("test");
+        if (rememberMe) rememberMeCheckbox.click();
+        submitButton.click();
     }
 
 }
