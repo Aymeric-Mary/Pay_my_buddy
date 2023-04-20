@@ -34,16 +34,16 @@ CREATE TABLE transaction
 
 -- Insertion des données
 INSERT INTO user (firstname, lastname, email, password, balance, creation_date)
-VALUES ('Jean', 'Dupont', 'jean.dupont@gmail.com', 'P@s5W0rD#1xA', 1000.00, '2022-04-30 10:00:00'),
-       ('Marie', 'Durand', 'marie.durand@gmail.com', 'M@r1eD#2rAnD', 1500.00, '2022-08-15 14:30:00'),
-       ('Pierre', 'Martin', 'pierre.martin@gmail.com', 'p13rR3M@rT!n', 2000.00, '2022-11-20 09:45:00'),
-       ('Alice', 'Lefebvre', 'alice.lefebvre@gmail.com', 'Al1C3#L3F3B', 2500.00, '2022-06-07 17:20:00'),
-       ('Guillaume', 'Moreau', 'guillaume.moreau@gmail.com', 'G&U1L@U^^3M0', 1800.00, '2022-10-12 11:10:00'),
-       ('Sophie', 'Petit', 'sophie.petit@gmail.com', 'S0ph1eP3T1T#', 1200.00, '2023-02-02 16:00:00'),
-       ('Maxime', 'Roussel', 'maxime.roussel@gmail.com', 'M@X1M3!R0uS', 900.00, '2022-07-22 19:35:00'),
-       ('Camille', 'Girard', 'camille.girard@gmail.com', 'C@M1Ll3_G1r', 2200.00, '2023-01-10 08:50:00'),
-       ('Alexandre', 'Leroy', 'alexandre.leroy@gmail.com', 'Al3X@NdR3L3', 2100.00, '2022-05-27 13:15:00'),
-       ('Lucie', 'Lemaire', 'lucie.lemaire@gmail.com', 'LuC1E-L3M@I', 1700.00, '2022-09-30 18:25:00');
+VALUES ('Jean', 'Dupont', 'jean.dupont@gmail.com', '$2a$12$otow12LtvKv4UDzar5c62OhmCOhBZULtW9BdcDxj5wfmKjGgxHnUm', 1000.00, '2022-04-30 10:00:00'),
+       ('Marie', 'Durand', 'marie.durand@gmail.com', '$2a$12$19UOj76qQJ6gmtZqA3DegOR5iqZavsxcipapZVSHK3dnVwtihMrp.', 1500.00, '2022-08-15 14:30:00'),
+       ('Pierre', 'Martin', 'pierre.martin@gmail.com', '$2a$12$WbIQXi3lcuMmBwPJMWHM5uzEa5Mjk9ZdVPq6CM3INdy1hwy0OvMvu', 2000.00, '2022-11-20 09:45:00'),
+       ('Alice', 'Lefebvre', 'alice.lefebvre@gmail.com', '$2a$12$C3DpjrAoK/BJ5YEC1wUWPuUv/TY7nSe9A8.f8c/OHtqIQNZWYtPZK', 2500.00, '2022-06-07 17:20:00'),
+       ('Guillaume', 'Moreau', 'guillaume.moreau@gmail.com', '$2a$12$BkL2LRztxf9W31GBc090Busx7.VF4L5Mk.DxESaYIepI8ay.6FbRK', 1800.00, '2022-10-12 11:10:00'),
+       ('Sophie', 'Petit', 'sophie.petit@gmail.com', '$2a$12$EIkd6wy4QHaNc4/fQe8paOU0AU4Fje2AIqLNOGjHaz3X6dBFjsE.2', 1200.00, '2023-02-02 16:00:00'),
+       ('Maxime', 'Roussel', 'maxime.roussel@gmail.com', '$2a$12$101WJciUKLS6U5efPrw60el7Zl/8Afw09aTpCKSnArX2CFRM5SA2e', 900.00, '2022-07-22 19:35:00'),
+       ('Camille', 'Girard', 'camille.girard@gmail.com', '$2a$12$etfN0erphZWPRF2ZPZi2BuJwp58LisU.nKHGNEx101u7WjmWx49Ta', 2200.00, '2023-01-10 08:50:00'),
+       ('Alexandre', 'Leroy', 'alexandre.leroy@gmail.com', '$2a$12$5RjOOIoB1M5jENeFuXsVd.h36GD8pK1s2WcjxVpVpiN9wlWkhMpX6', 2100.00, '2022-05-27 13:15:00'),
+       ('Lucie', 'Lemaire', 'lucie.lemaire@gmail.com', '$2a$12$WqYiwgS6/AAzf6DVEK838uu3YM/0pd.nE00mO3Yt3HdTmaMAlGcOS', 1700.00, '2022-09-30 18:25:00');
 
 INSERT INTO connection (user1_id, user2_id, creation_date)
 VALUES (1, 2, '2022-05-01 15:00:00'),
