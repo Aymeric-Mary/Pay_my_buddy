@@ -19,10 +19,9 @@ public class LoginE2ETest extends AbstractE2E {
     @Test
     public void testLogin_whenCredentialsAreGood_andRememberMeIsFalse() {
         // Given
-        createUser("test@gmail.com", "test");
+        mockUserRepository("test@gmail.com", "test");
         // When
-        login();
-
+        login("test@gmail.com", "test");
         // Then
         assertThat(driver.getCurrentUrl()).isEqualTo(baseUrl + "/transfer");
         assertThat(driver.manage().getCookies()).noneMatch(cookie -> cookie.getName().equals("remember-me"));
@@ -31,9 +30,9 @@ public class LoginE2ETest extends AbstractE2E {
     @Test
     public void testLogin_whenCredentialsAreWrong() {
         // Given
+        mockUserRepository("test@gmail.com", "testtest");
         // When
-        login();
-
+        login("test@gmail.com", "test");
         // Then
         assertThat(driver.getCurrentUrl()).isEqualTo(baseUrl + "/login?error");
         WebElement errorMessage = driver.findElement(By.id("wrong-credentials"));
@@ -43,9 +42,9 @@ public class LoginE2ETest extends AbstractE2E {
     @Test
     public void testLogin_whenCredentialsAreGood_andRememberMeIsTrue() {
         // Given
-        createUser("test@gmail.com", "test");
+        mockUserRepository("test@gmail.com", "test");
         // When
-        login(true);
+        login("test@gmail.com", "test", true);
         // Then
         assertThat(driver.getCurrentUrl()).isEqualTo(baseUrl + "/transfer");
         assertThat(driver.manage().getCookies()).anyMatch(cookie -> cookie.getName().equals("remember-me"));

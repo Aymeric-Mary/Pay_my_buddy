@@ -1,6 +1,7 @@
 package com.openclassrooms.pay_my_buddy.e2e;
 
-import com.openclassrooms.pay_my_buddy.DataTools;
+import com.openclassrooms.pay_my_buddy.model.User;
+import com.openclassrooms.pay_my_buddy.repository.UserRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,15 +10,27 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public abstract class AbstractE2E extends DataTools {
+public abstract class AbstractE2E {
     @LocalServerPort
-    private int port;
+    protected int port;
     protected WebDriver driver;
     protected String baseUrl;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @BeforeAll
     static void setupAll() {
@@ -26,9 +39,11 @@ public abstract class AbstractE2E extends DataTools {
 
     @BeforeEach
     public void setUp() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        driver = new ChromeDriver(options);
         baseUrl = "http://localhost:" + port;
-        userRepository.deleteAll();
+        when(userRepository.save(any())).thenCallRealMethod();
     }
 
     @AfterEach
@@ -38,21 +53,45 @@ public abstract class AbstractE2E extends DataTools {
         }
     }
 
-    protected void login(){
-        login(false);
+    protected void login(String email, String password) {
+        login(email, password, false);
     }
 
-    protected void login(Boolean rememberMe){
+    protected void login(String email, String password, Boolean rememberMe) {
         driver.get(baseUrl + "/login");
         WebElement inputEmail = driver.findElement(By.id("email"));
         WebElement inputPassword = driver.findElement(By.id("password"));
         WebElement submitButton = driver.findElement(By.cssSelector("button[type=submit]"));
         WebElement rememberMeCheckbox = driver.findElement(By.id("remember-me"));
 
-        inputEmail.sendKeys("test@gmail.com");
-        inputPassword.sendKeys("test");
+        inputEmail.sendKeys(email);
+        inputPassword.sendKeys(password);
         if (rememberMe) rememberMeCheckbox.click();
         submitButton.click();
+    }
+
+    protected User mockUserRepository(String email, String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        User user = User.builder()
+                .email(email)
+                .password(encoder.encode(password))
+                .build();
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        return user;
+    }
+
+    protected User createUser(String firstname, String lastname, String email){
+        User user = User.builder()
+                .firstname(firstname)
+                .lastname(lastname)
+                .email(email)
+                .build();
+        return userRepository.save(user);
+    }
+
+    protected void addConnection(User connectedUser, User connection) {
+        connectedUser.getConnections().add(connection);
+        userRepository.save(connectedUser);
     }
 
 }

@@ -1,4 +1,4 @@
-html,body{
+html, body {
     width: 100%;
     height: 100%;
 }
@@ -7,10 +7,14 @@ html,body{
     color: cornflowerblue;
 }
 
-.table tr{
-    height:100px;
+#transactions.table tr {
+    height: 100px;
 }
 
-.table tr th,td{
+#transactions.table tr th, td {
     vertical-align: middle;
+}
+
+#add-connection .table-hover tr{
+    cursor: pointer;
 }

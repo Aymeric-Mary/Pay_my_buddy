@@ -2,20 +2,20 @@
 CREATE TABLE user
 (
     id            BIGINT PRIMARY KEY AUTO_INCREMENT,
-    firstname     VARCHAR(255),
-    lastname      VARCHAR(255),
-    email         VARCHAR(255),
-    password      VARCHAR(255),
-    balance       FLOAT,
-    creation_date TIMESTAMP
+    firstname     VARCHAR(255) NOT NULL,
+    lastname      VARCHAR(255) NOT NULL,
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    password      VARCHAR(255) NOT NULL,
+    balance       FLOAT NOT NULL DEFAULT 0.00,
+    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE connection
 (
     id            BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user1_id      BIGINT,
-    user2_id      BIGINT,
-    creation_date TIMESTAMP,
+    user1_id      BIGINT NOT NULL,
+    user2_id      BIGINT NOT NULL,
+    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user1_id) REFERENCES user (id),
     FOREIGN KEY (user2_id) REFERENCES user (id)
 );
@@ -24,9 +24,9 @@ CREATE TABLE transaction
 (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(255),
-    amount      FLOAT,
-    sender_id   BIGINT,
-    receiver_id BIGINT,
+    amount      FLOAT NOT NULL,
+    sender_id   BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
     send_date   TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES user (id),
     FOREIGN KEY (receiver_id) REFERENCES user (id)

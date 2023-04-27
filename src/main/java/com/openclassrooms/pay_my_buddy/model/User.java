@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,4 +32,21 @@ public class User {
     private Float balance;
 
     private Instant creationDate;
+
+    @ManyToMany
+    @JoinTable(
+            name = "connection",
+            joinColumns = @JoinColumn(name = "user1_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user2_id", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user1_id", "user2_id"})
+    )
+    @Builder.Default
+    private Set<User> connections = new HashSet<>();
+
+    public void addConnection(User user) {
+        if (!connections.contains(user)) {
+            connections.add(user);
+            user.addConnection(this);
+        }
+    }
 }

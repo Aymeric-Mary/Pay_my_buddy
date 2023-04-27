@@ -11,9 +11,9 @@ public class LogoutE2ETest extends AbstractE2E {
     @Test
     public void testLogout() {
         // Given
-        createUser("test@gmail.com", "test");
+        mockUserRepository("test@gmail.com", "test");
+        login("test@gmail.com", "test");
         // When
-        login();
         WebElement logoutLink = driver.findElement(By.id("logout"));
 
         logoutLink.click();

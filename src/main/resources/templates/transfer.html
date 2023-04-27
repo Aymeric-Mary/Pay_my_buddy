@@ -32,21 +32,14 @@
 <div class="container">
     <div class="d-flex justify-content-between">
         <h2>Send Money</h2>
-        <button class="btn btn-primary">Add Connection</button>
+        <button id="btn-add-connection" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-connection">Add Connection</button>
     </div>
     <div class="bg-light d-flex justify-content-center py-5">
         <div class="d-flex justify-content-center w-50">
-            <div class="dropdown me-5">
-                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    Select a connection
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Connection 1</a></li>
-                    <li><a class="dropdown-item" href="#">Connection 2</a></li>
-                    <li><a class="dropdown-item" href="#">Connection 3</a></li>
-                </ul>
-            </div>
+            <select class="form-select" name="connection">
+                <option selected>Select a connection</option>
+                <option th:each="connection : ${connections}" th:value="${connection.id}" th:text="${connection.firstname} + ' ' + ${connection.lastname}"></option>
+            </select>
             <div class="input-group me-5">
                 <input type="number" min="0" class="form-control" id="amountInput" placeholder="0 €">
             </div>
@@ -54,7 +47,7 @@
         </div>
     </div>
     <h2>My Transcations</h2>
-    <table class="table table-striped text-center border border-dark border-3">
+    <table id="transactions" class="table table-striped text-center border border-dark border-3">
         <thead>
         <tr class="bg-success text-light">
             <th scope="col">Connections</th>
@@ -91,5 +84,36 @@
             <li class="page-item"><a class="page-link" href="#">>></a></li>
         </ul>
     </nav>
+</div>
+<div id="add-connection" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Add a connection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">🔎</span>
+                    <input type="text" class="form-control" placeholder="Search connection" aria-label="Username"
+                           aria-describedby="basic-addon1">
+                </div>
+                <table id="connections" class="table table-sm table-hover">
+                    <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}" th:attr="id=${user.id}" onclick="addConnection(this.id)">
+                        <td th:text="${user.firstname}">Nom</td>
+                        <td th:text="${user.lastname}">Email</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments/footer"></div>
