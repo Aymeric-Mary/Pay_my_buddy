@@ -32,18 +32,31 @@
 <div class="container">
     <div class="d-flex justify-content-between">
         <h2>Send Money</h2>
-        <button id="btn-add-connection" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-connection">Add Connection</button>
+        <button id="btn-add-connection" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-connection">
+            Add Connection
+        </button>
     </div>
     <div class="bg-light d-flex justify-content-center py-5">
-        <div class="d-flex justify-content-center w-50">
-            <select class="form-select" name="connection">
-                <option selected>Select a connection</option>
-                <option th:each="connection : ${connections}" th:value="${connection.id}" th:text="${connection.firstname} + ' ' + ${connection.lastname}"></option>
-            </select>
-            <div class="input-group me-5">
-                <input type="number" min="0" class="form-control" id="amountInput" placeholder="0 €">
+        <div class="d-flex flex-column w-75">
+            <div th:if="${param.success}">
+                <p id="transaction-success" class="alert alert-success text-center">Transaction envoyée avec succès</p>
             </div>
-            <button class="btn btn-success" style="padding-left: 50px; padding-right: 50px">Pay</button>
+            <form class="d-flex justify-content-center" action="" method="post">
+                <select class="form-select" name="connectionId">
+                    <option selected>Select a connection</option>
+                    <option th:each="connection : ${connections}" th:value="${connection.id}"
+                            th:text="${connection.firstname} + ' ' + ${connection.lastname}"></option>
+                </select>
+                <div class="input-group">
+                    <input type="number" min="0" name="amount" class="form-control" id="amountInput" placeholder="0 €">
+                </div>
+                <div class="input-group me-5">
+                    <input type="text" name="description" class="form-control" id="descriptionInput"
+                           placeholder="Description">
+                </div>
+                <button type="submit" class="btn btn-success" style="padding-left: 50px; padding-right: 50px">Pay
+                </button>
+            </form>
         </div>
     </div>
     <h2>My Transcations</h2>
@@ -56,23 +69,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="py-3">
-            <th>Hayley</th>
-            <td>Restaurant bill share</td>
-            <td>10€</td>
-        </tr>
-        <tr>
-            <th>Clara</th>
-            <td>Trip money</td>
-            <td>25€</td>
-        </tr>
-        <tr>
-            <th>Smith</th>
-            <td>Movie tickets</td>
-            <td>8€</td>
+        <tr th:each="transaction : ${transactions}" class="py-3">
+            <th th:text="${transaction.user.firstname} + ' ' + ${transaction.user.lastname}"></th>
+            <td th:text="${transaction.description}"></td>
+            <td th:text="${transaction.amount} + ' €'"></td>
         </tr>
         </tbody>
     </table>
+    <!--
     <nav class="d-flex justify-content-center">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#"><<</a></li>
@@ -84,6 +88,7 @@
             <li class="page-item"><a class="page-link" href="#">>></a></li>
         </ul>
     </nav>
+    -->
 </div>
 <div id="add-connection" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
