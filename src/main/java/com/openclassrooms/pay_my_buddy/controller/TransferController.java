@@ -31,6 +31,7 @@ public class TransferController {
         mv.addObject("users", users);
         mv.addObject("connections", connections);
         mv.addObject("transactions", transactions);
+        mv.addObject("transactions", transactions);
         return mv;
     }
 

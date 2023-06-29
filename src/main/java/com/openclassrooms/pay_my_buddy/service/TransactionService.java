@@ -19,6 +19,11 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
+    /**
+     * Create a transaction
+     * @param requestDto the transaction request dto
+     * @return the transaction
+     */
     public Transaction createTransaction(TransactionRequestDto requestDto) {
         User userConnected = userService.getUserConnected();
         User friend = userService.getUser(requestDto.getConnectionId());
@@ -26,6 +31,10 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
+    /**
+     * Get all transactions of the user connected
+     * @return the list of transactions
+     */
     public List<TransactionResponseDto> getTransactions() {
         User user = userService.getUserConnected();
         List<Transaction> transactions = transactionRepository.findByUser(user);

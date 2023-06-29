@@ -49,6 +49,7 @@ public class LoginE2ETest extends AbstractE2E {
         assertThat(driver.getCurrentUrl()).isEqualTo(baseUrl + "/transfer");
         assertThat(driver.manage().getCookies()).anyMatch(cookie -> cookie.getName().equals("remember-me"));
         assertThat(driver.manage().getCookieNamed("remember-me").getExpiry())
-                .isInSameSecondAs(Date.from(Instant.now().plusSeconds(appConfig.getNbDaysRememberMe() * 24 * 60 * 60)));
+                .isInSameSecondAs(Date.from(Instant.now()
+                        .plusSeconds(appConfig.getNbDaysRememberMe() * 24 * 60 * 60)));
     }
 }
