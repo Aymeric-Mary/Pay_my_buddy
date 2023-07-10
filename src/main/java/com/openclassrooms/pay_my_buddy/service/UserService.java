@@ -27,8 +27,8 @@ public class UserService {
      * Get all users except the user connected
      * @return a list of users
      */
-    public List<UserDto> getAllNotConnectedUsers() {
-        List<User> users = userRepository.findByConnectionsNotContaining(getUserConnected());
+    public List<UserDto> getConnectableUsers() {
+        List<User> users = userRepository.findConnectableUsers(getUserConnected());
         return userMapper.entitiesToUserDtos(users);
     }
 
@@ -38,8 +38,8 @@ public class UserService {
      */
     public void addConnection(AddConnectionDto addConnectionDto) {
         User user = getUserConnected();
-        User user2 = userRepository.findById(addConnectionDto.getConnectionId())
-                .orElseThrow(() -> new NoSuchResourceException(User.class, addConnectionDto.getConnectionId()));
+        User user2 = userRepository.findById(addConnectionDto.connectionId())
+                .orElseThrow(() -> new NoSuchResourceException(User.class, addConnectionDto.connectionId()));
         user.addConnection(user2);
     }
 

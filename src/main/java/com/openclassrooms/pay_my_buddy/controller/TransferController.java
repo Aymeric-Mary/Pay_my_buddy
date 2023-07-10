@@ -24,7 +24,7 @@ public class TransferController {
 
     @GetMapping("/transfer")
     public ModelAndView transfer() {
-        List<UserDto> users = userService.getAllNotConnectedUsers();
+        List<UserDto> users = userService.getConnectableUsers();
         List<UserDto> connections = userService.getConnections();
         List<TransactionResponseDto> transactions = transactionService.getTransactions();
         ModelAndView mv = new ModelAndView("transfer");

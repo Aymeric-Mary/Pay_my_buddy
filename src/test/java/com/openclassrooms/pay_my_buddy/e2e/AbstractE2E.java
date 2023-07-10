@@ -1,7 +1,10 @@
 package com.openclassrooms.pay_my_buddy.e2e;
 
 import com.openclassrooms.pay_my_buddy.model.User;
+import com.openclassrooms.pay_my_buddy.model.user.dto.UserDto;
 import com.openclassrooms.pay_my_buddy.repository.UserRepository;
+import com.openclassrooms.pay_my_buddy.service.TransactionService;
+import com.openclassrooms.pay_my_buddy.service.UserService;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,9 +20,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,6 +35,12 @@ public abstract class AbstractE2E {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    UserService userServiceMock;
+
+    @MockBean
+    TransactionService transactionService;
+
     @BeforeAll
     static void setupAll() {
         WebDriverManager.chromedriver().setup();
@@ -43,7 +52,6 @@ public abstract class AbstractE2E {
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
         baseUrl = "http://localhost:" + port;
-        when(userRepository.save(any())).thenCallRealMethod();
     }
 
     @AfterEach
@@ -78,6 +86,10 @@ public abstract class AbstractE2E {
                 .build();
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
         return user;
+    }
+
+    protected void mockConnectableUsers(List<UserDto> connectableUsers) {
+        when(userServiceMock.getConnectableUsers()).thenReturn(connectableUsers);
     }
 
     protected User createUser(String firstname, String lastname, String email){

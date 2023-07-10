@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userSerivce;
+    private final UserService userService;
 
     @PostMapping(value = "/users/mine/connections", consumes = "application/json")
     public ResponseEntity<Void> addConnection(
             @RequestBody AddConnectionDto addConnectionDto
             ) {
-        userSerivce.addConnection(addConnectionDto);
+        userService.addConnection(addConnectionDto);
         return ResponseEntity.noContent().build();
     }
 }
