@@ -48,7 +48,7 @@
                             th:text="${connection.firstname} + ' ' + ${connection.lastname}"></option>
                 </select>
                 <div class="input-group">
-                    <input type="number" min="0" name="amount" class="form-control" id="amountInput" placeholder="0 €">
+                    <input type="number" min="0" name="amount" step="0.01" class="form-control" id="amountInput" placeholder="0 €">
                 </div>
                 <div class="input-group me-5">
                     <input type="text" name="description" class="form-control" id="descriptionInput"
@@ -72,7 +72,7 @@
         <tr th:each="transaction : ${transactions}" class="py-3">
             <th th:text="${transaction.user.firstname} + ' ' + ${transaction.user.lastname}"></th>
             <td th:text="${transaction.description}"></td>
-            <td th:text="${transaction.amount} + ' €'"></td>
+            <td th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)} + ' €'"></td>
         </tr>
         </tbody>
     </table>

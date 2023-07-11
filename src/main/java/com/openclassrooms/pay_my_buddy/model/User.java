@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -41,12 +41,17 @@ public class User {
             uniqueConstraints = @UniqueConstraint(columnNames = {"user1_id", "user2_id"})
     )
     @Builder.Default
-    private Set<User> connections = new HashSet<>();
+    private List<User> connections = new ArrayList<>();
 
     public void addConnection(User user) {
         if (!connections.contains(user)) {
             connections.add(user);
             user.addConnection(this);
         }
+    }
+
+    public void pay(Float amount){
+        Float fee = amount * 0.005f;
+        this.balance -= amount + fee;
     }
 }

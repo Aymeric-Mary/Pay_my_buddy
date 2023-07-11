@@ -1,8 +1,8 @@
 package com.openclassrooms.pay_my_buddy.e2e;
 
 import com.openclassrooms.pay_my_buddy.controller.UserController;
-import com.openclassrooms.pay_my_buddy.model.user.dto.AddConnectionDto;
-import com.openclassrooms.pay_my_buddy.model.user.dto.UserDto;
+import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
+import com.openclassrooms.pay_my_buddy.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -23,8 +23,8 @@ public class AddConnectionE2ETest extends WithoutSecurity {
 
     @BeforeEach
     public void mockConnectableUsers() {
-        UserDto user1 = new UserDto(1L, "Paul", "Durand");
-        UserDto user2 = new UserDto(2L, "Jean", "Dupont");
+        User user1 = User.builder().id(1L).firstname("Paul").lastname("Durand").build();
+        User user2 = User.builder().id(2L).firstname("Jean").lastname("Dupont").build();
         mockConnectableUsers(List.of(user1, user2));
     }
 

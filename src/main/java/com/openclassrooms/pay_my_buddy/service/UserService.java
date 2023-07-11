@@ -1,25 +1,23 @@
 package com.openclassrooms.pay_my_buddy.service;
 
+import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
 import com.openclassrooms.pay_my_buddy.exception.NoSuchResourceException;
+import com.openclassrooms.pay_my_buddy.mapper.UserMapper;
 import com.openclassrooms.pay_my_buddy.model.User;
-import com.openclassrooms.pay_my_buddy.model.user.dto.AddConnectionDto;
-import com.openclassrooms.pay_my_buddy.model.user.dto.UserDto;
-import com.openclassrooms.pay_my_buddy.model.user.dto.mapper.UserMapper;
 import com.openclassrooms.pay_my_buddy.repository.UserRepository;
+import com.openclassrooms.pay_my_buddy.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
 
+    private final AuthService authService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -27,9 +25,8 @@ public class UserService {
      * Get all users except the user connected
      * @return a list of users
      */
-    public List<UserDto> getConnectableUsers() {
-        List<User> users = userRepository.findConnectableUsers(getUserConnected());
-        return userMapper.entitiesToUserDtos(users);
+    public List<User> getConnectableUsers() {
+        return userRepository.findConnectableUsers(getUserConnected());
     }
 
     /**
@@ -48,19 +45,8 @@ public class UserService {
      * Get all connections of the user connected
      * @return a list of users
      */
-    public List<UserDto> getConnections() {
-        Set<User> connections = getUserConnected().getConnections();
-        return userMapper.entitiesToUserDtos(connections);
-    }
-
-    /**
-     * Get the user connected
-     * @return the user connected
-     */
-    public User getUserConnected() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchResourceException(User.class, email));
+    public List<User> getConnections() {
+        return getUserConnected().getConnections();
     }
 
     /**
@@ -68,9 +54,13 @@ public class UserService {
      * @param id the id of the user
      * @return the user
      */
-    public User getUser(Long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchResourceException(User.class, id));
+    }
+
+    private User getUserConnected() {
+        return authService.getConnectedUser();
     }
 
 }

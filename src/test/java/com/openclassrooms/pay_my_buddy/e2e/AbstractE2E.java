@@ -1,7 +1,6 @@
 package com.openclassrooms.pay_my_buddy.e2e;
 
 import com.openclassrooms.pay_my_buddy.model.User;
-import com.openclassrooms.pay_my_buddy.model.user.dto.UserDto;
 import com.openclassrooms.pay_my_buddy.repository.UserRepository;
 import com.openclassrooms.pay_my_buddy.service.TransactionService;
 import com.openclassrooms.pay_my_buddy.service.UserService;
@@ -88,7 +87,7 @@ public abstract class AbstractE2E {
         return user;
     }
 
-    protected void mockConnectableUsers(List<UserDto> connectableUsers) {
+    protected void mockConnectableUsers(List<User> connectableUsers) {
         when(userServiceMock.getConnectableUsers()).thenReturn(connectableUsers);
     }
 
