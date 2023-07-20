@@ -16,6 +16,7 @@ public class AuthService {
 
     /**
      * Get the user connected
+     *
      * @return the user connected
      */
     public User getConnectedUser() {

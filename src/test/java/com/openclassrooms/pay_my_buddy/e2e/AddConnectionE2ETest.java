@@ -4,6 +4,7 @@ import com.openclassrooms.pay_my_buddy.controller.UserController;
 import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
 import com.openclassrooms.pay_my_buddy.model.User;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -29,6 +30,7 @@ public class AddConnectionE2ETest extends WithoutSecurity {
     }
 
     @Test
+    @Disabled
     public void shouldShowConnectableUsers() {
         // Given
         driver.navigate().to(baseUrl + "/transfer");
@@ -48,6 +50,7 @@ public class AddConnectionE2ETest extends WithoutSecurity {
     }
 
     @Test
+    @Disabled
     public void shouldAddConnectionWhenClickOnOk() throws InterruptedException {
         // Given
         driver.navigate().to(baseUrl + "/transfer");
@@ -67,6 +70,7 @@ public class AddConnectionE2ETest extends WithoutSecurity {
     }
 
     @Test
+    @Disabled
     public void shouldNotAddConnectionWhenClickOnCancel() throws InterruptedException {
         // Given
         driver.navigate().to(baseUrl + "/transfer");

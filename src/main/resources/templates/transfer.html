@@ -2,6 +2,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
     <div class="container-fluid d-fle justify-content-between">
         <img class="d-block" th:src="@{img/logo.png}" alt="Logo of pay my buddy" style="width: 200px">
+        <div>
+            <p class="d-inline-block m-0 me-5">Welcome <span th:text="${connectedUser.firstname}"></span> - Balance :
+                <span th:text="${connectedUser.balance} + ' €'"></span></p>
+        </div>
         <div class="d-flex justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -37,18 +41,24 @@
         </button>
     </div>
     <div class="bg-light d-flex justify-content-center py-5">
-        <div class="d-flex flex-column w-75">
-            <div th:if="${param.success}">
+        <div class="d-flex flex-column">
+            <div th:if="${success}">
                 <p id="transaction-success" class="alert alert-success text-center">Transaction envoyée avec succès</p>
+            </div>
+            <div th:if="${errors}">
+                <div class="alert alert-danger text-center">
+                    <p class="m-0" th:each="error : ${errors}" th:text="${error.defaultMessage}"></p>
+                </div>
             </div>
             <form class="d-flex justify-content-center" action="" method="post">
                 <select class="form-select" name="connectionId">
-                    <option selected>Select a connection</option>
+                    <option value="" selected>Select a connection</option>
                     <option th:each="connection : ${connections}" th:value="${connection.id}"
                             th:text="${connection.firstname} + ' ' + ${connection.lastname}"></option>
                 </select>
                 <div class="input-group">
-                    <input type="number" min="0" name="amount" step="0.01" class="form-control" id="amountInput" placeholder="0 €">
+                    <input type="number" name="amount" step="0.01" class="form-control" id="amountInput"
+                           placeholder="0 €">
                 </div>
                 <div class="input-group me-5">
                     <input type="text" name="description" class="form-control" id="descriptionInput"
@@ -66,6 +76,7 @@
             <th scope="col">Connections</th>
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
+            <th scope="col">Fee</th>
         </tr>
         </thead>
         <tbody>
@@ -73,6 +84,7 @@
             <th th:text="${transaction.user.firstname} + ' ' + ${transaction.user.lastname}"></th>
             <td th:text="${transaction.description}"></td>
             <td th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)} + ' €'"></td>
+            <td th:text="${#numbers.formatDecimal(transaction.fee, 1, 2)} + ' €'"></td>
         </tr>
         </tbody>
     </table>
@@ -89,6 +101,7 @@
         </ul>
     </nav>
     -->
+</div>
 </div>
 <div id="add-connection" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">

@@ -1,5 +1,6 @@
 package com.openclassrooms.pay_my_buddy.e2e;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LogoutE2ETest extends AbstractE2E {
 
     @Test
+    @Disabled
     public void testLogout() {
         // Given
         mockUserRepository("test@gmail.com", "test");

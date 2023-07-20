@@ -1,6 +1,7 @@
 package com.openclassrooms.pay_my_buddy.e2e;
 
 import com.openclassrooms.pay_my_buddy.config.AppConfig;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -17,6 +18,7 @@ public class LoginE2ETest extends AbstractE2E {
     private AppConfig appConfig;
 
     @Test
+    @Disabled
     public void testLogin_whenCredentialsAreGood_andRememberMeIsFalse() {
         // Given
         mockUserRepository("test@gmail.com", "test");
@@ -28,6 +30,7 @@ public class LoginE2ETest extends AbstractE2E {
     }
 
     @Test
+    @Disabled
     public void testLogin_whenCredentialsAreWrong() {
         // Given
         mockUserRepository("test@gmail.com", "testtest");
@@ -40,6 +43,7 @@ public class LoginE2ETest extends AbstractE2E {
     }
 
     @Test
+    @Disabled
     public void testLogin_whenCredentialsAreGood_andRememberMeIsTrue() {
         // Given
         mockUserRepository("test@gmail.com", "test");

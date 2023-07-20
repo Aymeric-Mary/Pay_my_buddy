@@ -44,7 +44,7 @@ public class TransactionServiceIT extends DataTools {
             connectedUser.setBalance(1000f);
             TransactionRequestDto dto = new TransactionRequestDto(friend.getId(), 200f, "description");
             // When
-            Transaction transaction = transactionService.createTransaction(dto);
+            Transaction transaction = transactionService.createTransaction(friend, dto);
             // Then
             assertThat(transaction.getAmount()).isEqualTo(200);
             assertThat(transaction.getDescription()).isEqualTo("description");

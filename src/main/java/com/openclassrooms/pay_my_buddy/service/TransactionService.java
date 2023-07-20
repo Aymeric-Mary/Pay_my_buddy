@@ -7,6 +7,8 @@ import com.openclassrooms.pay_my_buddy.model.Transaction;
 import com.openclassrooms.pay_my_buddy.model.User;
 import com.openclassrooms.pay_my_buddy.repository.TransactionRepository;
 import com.openclassrooms.pay_my_buddy.service.auth.AuthService;
+import com.openclassrooms.pay_my_buddy.service.user.UserBalanceService;
+import com.openclassrooms.pay_my_buddy.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class TransactionService {
 
     private final AuthService authService;
     private final UserService userService;
+    private final UserBalanceService userBalanceService;
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
@@ -29,11 +32,10 @@ public class TransactionService {
      * @param requestDto the transaction request dto
      * @return the transaction
      */
-    public Transaction createTransaction(TransactionRequestDto requestDto) {
-        User connectedUser = authService.getConnectedUser();
-        User friend = userService.getUserById(requestDto.connectionId());
-        Transaction transaction = transactionMapper.toEntity(connectedUser, friend, requestDto);
-        connectedUser.pay(requestDto.amount());
+    public Transaction createTransaction(User sender, TransactionRequestDto requestDto) {
+        User receiver = userService.getUserById(requestDto.connectionId());
+        Transaction transaction = transactionMapper.toEntity(sender, receiver, requestDto);
+        userBalanceService.adjustUsersBalance(transaction);
         return transactionRepository.save(transaction);
     }
 

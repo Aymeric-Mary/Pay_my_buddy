@@ -7,5 +7,6 @@ public record TransactionResponseDto (
     Long id,
     UserDto user,
     Float amount,
+    Float fee,
     String description
 ){}

@@ -1,7 +1,7 @@
 package com.openclassrooms.pay_my_buddy.controller;
 
 import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
-import com.openclassrooms.pay_my_buddy.service.UserService;
+import com.openclassrooms.pay_my_buddy.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -25,6 +25,9 @@ public class Transaction {
     @Column(name = "amount", nullable = false)
     private Float amount;
 
+    @Column(name = "fee", nullable = false)
+    private Float fee;
+
     @ManyToOne
     @JoinColumn(nullable = false, name = "sender_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_transaction_sender"))
     private User sender;

@@ -42,16 +42,4 @@ public class User {
     )
     @Builder.Default
     private List<User> connections = new ArrayList<>();
-
-    public void addConnection(User user) {
-        if (!connections.contains(user)) {
-            connections.add(user);
-            user.addConnection(this);
-        }
-    }
-
-    public void pay(Float amount){
-        Float fee = amount * 0.005f;
-        this.balance -= amount + fee;
-    }
 }
