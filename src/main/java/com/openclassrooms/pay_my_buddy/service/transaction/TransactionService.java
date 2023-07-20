@@ -1,4 +1,4 @@
-package com.openclassrooms.pay_my_buddy.service;
+package com.openclassrooms.pay_my_buddy.service.transaction;
 
 import com.openclassrooms.pay_my_buddy.dto.TransactionRequestDto;
 import com.openclassrooms.pay_my_buddy.dto.TransactionResponseDto;

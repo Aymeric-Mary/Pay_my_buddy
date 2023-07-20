@@ -1,4 +1,4 @@
-package com.openclassrooms.pay_my_buddy.UT.service;
+package com.openclassrooms.pay_my_buddy.UT.service.auth;
 
 
 import com.openclassrooms.pay_my_buddy.exception.NoSuchResourceException;

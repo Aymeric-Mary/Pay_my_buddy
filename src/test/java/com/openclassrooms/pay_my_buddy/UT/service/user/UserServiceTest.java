@@ -1,4 +1,4 @@
-package com.openclassrooms.pay_my_buddy.UT.service;
+package com.openclassrooms.pay_my_buddy.UT.service.user;
 
 
 import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,6 +41,40 @@ public class UserServiceTest {
     public void setup() {
         this.connectedUser = User.builder().id(1L).firstname("firstname").lastname("lastname").build();
         when(authServiceMock.getConnectedUser()).thenReturn(this.connectedUser);
+    }
+
+    @Nested
+    class GetConnectableUsers {
+        @Test
+        public void testGetConnectableUsers() {
+            // Given
+            List<User> connectableUsers = List.of(
+                    User.builder().id(2L).build(),
+                    User.builder().id(3L).build()
+            );
+            when(userRepositoryMock.findConnectableUsers(connectedUser)).thenReturn(connectableUsers);
+            // When
+            List<User> result = userService.getConnectableUsers();
+            // Then
+            assertThat(result).isEqualTo(connectableUsers);
+        }
+    }
+
+    @Nested
+    class GetConnections {
+        @Test
+        public void testGetConnections() {
+            // Given
+            List<User> connections = List.of(
+                    User.builder().id(2L).build(),
+                    User.builder().id(3L).build()
+            );
+            connectedUser.setConnections(connections);
+            // When
+            List<User> result = userService.getConnections();
+            // Then
+            assertThat(result).isEqualTo(connections);
+        }
     }
 
     @Nested
@@ -74,7 +109,7 @@ public class UserServiceTest {
     }
 
     @Nested
-    class GetUser{
+    class GetUserById {
 
         @BeforeEach
         public void cleanup() {
@@ -82,7 +117,7 @@ public class UserServiceTest {
         }
 
         @Test
-        public void testGetUser_whenUserExist() {
+        public void testGetUserById_whenUserExist() {
             // Given
             User user = User.builder().id(2L).firstname("firstname").lastname("lastname").build();
             when(userRepositoryMock.findById(2L)).thenReturn(Optional.of(user));
@@ -93,7 +128,7 @@ public class UserServiceTest {
         }
 
         @Test
-        public void testGetUser_whenUserDoesNotExist() {
+        public void testGetUserById_whenUserDoesNotExist() {
             // Given
             when(userRepositoryMock.findById(2L)).thenReturn(Optional.empty());
             try {

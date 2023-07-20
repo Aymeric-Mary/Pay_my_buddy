@@ -2,7 +2,7 @@ package com.openclassrooms.pay_my_buddy.e2e;
 
 import com.openclassrooms.pay_my_buddy.model.User;
 import com.openclassrooms.pay_my_buddy.repository.UserRepository;
-import com.openclassrooms.pay_my_buddy.service.TransactionService;
+import com.openclassrooms.pay_my_buddy.service.transaction.TransactionService;
 import com.openclassrooms.pay_my_buddy.service.user.UserService;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;

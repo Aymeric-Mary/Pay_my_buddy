@@ -1,6 +1,6 @@
 package com.openclassrooms.pay_my_buddy.model;
 
-import com.openclassrooms.pay_my_buddy.Utils;
+import com.openclassrooms.pay_my_buddy.utils.Utils;
 import jakarta.persistence.*;
 import lombok.*;
 

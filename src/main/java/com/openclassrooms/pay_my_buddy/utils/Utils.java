@@ -1,4 +1,4 @@
-package com.openclassrooms.pay_my_buddy;
+package com.openclassrooms.pay_my_buddy.utils;
 
 import lombok.experimental.UtilityClass;
 

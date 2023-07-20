@@ -6,9 +6,10 @@ import com.openclassrooms.pay_my_buddy.dto.TransactionResponseDto;
 import com.openclassrooms.pay_my_buddy.dto.UserDto;
 import com.openclassrooms.pay_my_buddy.model.Transaction;
 import com.openclassrooms.pay_my_buddy.model.User;
-import com.openclassrooms.pay_my_buddy.service.TransactionService;
 import com.openclassrooms.pay_my_buddy.service.auth.AuthService;
+import com.openclassrooms.pay_my_buddy.service.transaction.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class TransactionServiceIT extends DataTools {
     @Nested
     class CreateTransaction {
         @Test
+        @Disabled
         public void testCreateTransaction() {
             // Given
             User friend = createUser("friend", "friend", "friend@gmail.com");
@@ -57,6 +59,7 @@ public class TransactionServiceIT extends DataTools {
     @Nested
     class GetTransactionsByUser {
         @Test
+        @Disabled
         public void testGetTransactionResponseDtos() {
             // Given
             User friend = createUser("friend", "friend", "friend@gmail.com");

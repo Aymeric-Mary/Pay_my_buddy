@@ -138,7 +138,7 @@
 						<param>com.openclassrooms.pay_my_buddy.service*</param>
 					</targetClasses>
 					<targetTests>
-						<param>ccom.openclassrooms.pay_my_buddy.UT*</param>
+						<param>com.openclassrooms.pay_my_buddy.UT*</param>
 					</targetTests>
 					<mutators>
 						<mutator>CONDITIONALS_BOUNDARY</mutator>
