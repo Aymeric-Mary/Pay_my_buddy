@@ -15,6 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -73,16 +77,18 @@ public class TransactionServiceTest {
         TransactionResponseDto dto2 = TransactionResponseDto.builder().build();
         TransactionResponseDto dto3 = TransactionResponseDto.builder().build();
 
+        Pageable pageable = PageRequest.of(1, 10);
+
         when(authServiceMock.getConnectedUser()).thenReturn(connectedUser);
-        when(transactionRepositoryMock.findByUser(connectedUser)).thenReturn(transactions);
+        when(transactionRepositoryMock.findByUser(connectedUser, pageable)).thenReturn(new PageImpl<>(transactions));
         when(transactionMapperMock.sendTransactionToDto(transaction1)).thenReturn(dto1);
         when(transactionMapperMock.sendTransactionToDto(transaction2)).thenReturn(dto2);
         when(transactionMapperMock.receivedTransactionToDto(transaction3)).thenReturn(dto3);
         // When
-        List<TransactionResponseDto> result = transactionService.getTransactionResponseDtos();
+        Page<TransactionResponseDto> result = transactionService.getTransactionResponseDtos(pageable);
         // Then
         verify(authServiceMock, times(1)).getConnectedUser();
-        verify(transactionRepositoryMock, times(1)).findByUser(connectedUser);
+        verify(transactionRepositoryMock, times(1)).findByUser(connectedUser, pageable);
         verify(transactionMapperMock, times(2)).sendTransactionToDto(any(Transaction.class));
         verify(transactionMapperMock, times(1)).receivedTransactionToDto(any(Transaction.class));
         assertThat(result).containsExactly(dto1, dto2, dto3);

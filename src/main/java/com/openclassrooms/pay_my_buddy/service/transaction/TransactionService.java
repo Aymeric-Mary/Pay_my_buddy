@@ -11,9 +11,9 @@ import com.openclassrooms.pay_my_buddy.service.user.UserBalanceService;
 import com.openclassrooms.pay_my_buddy.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,16 +45,10 @@ public class TransactionService {
      * @return the list of transactions
      */
 
-    public List<TransactionResponseDto> getTransactionResponseDtos() {
+    public Page<TransactionResponseDto> getTransactionResponseDtos(Pageable pageable) {
         User connectedUser = authService.getConnectedUser();
-        List<Transaction> transactions = getTransactionsByUser(connectedUser);
-        return transactions.stream()
-                .map(transaction -> convertToDto(transaction, connectedUser))
-                .toList();
-    }
-
-    private List<Transaction> getTransactionsByUser(User user) {
-        return transactionRepository.findByUser(user);
+        Page<Transaction> transactions = transactionRepository.findByUser(connectedUser, pageable);
+        return transactions.map(transaction -> convertToDto(transaction, connectedUser));
     }
 
     private TransactionResponseDto convertToDto(Transaction transaction, User connectedUser) {

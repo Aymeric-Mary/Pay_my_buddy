@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
+    <div class="container-fluid d-fle justify-content-between">
+        <img class="d-block" th:src="@{img/logo.png}" alt="Logo of pay my buddy" style="width: 200px">
+        <div>
+            <p class="d-inline-block m-0 me-5">Welcome <span th:text="${connectedUser.firstname}"></span> - Balance :
+                <span th:text="${connectedUser.balance} + ' €'"></span></p>
+        </div>
+        <div class="d-flex justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link">Home</a>
+                </li>
+                <li th:class="${currentUri.equals('/transfer') ? 'nav-item active' : 'nav-item'}">
+                    <a class="nav-link" href="/transfer">Transfer</a>
+                </li>
+                <li class="nav-item" th:classappend="${currentUri == '/profile' ? 'active' : ''}">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a id="logout" class="nav-link" href="/logout">Log off</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class TransactionServiceIT extends DataTools {
             Transaction transaction1 = createTransaction(connectedUser, friend, 200.0f, "description");
             Transaction transaction2 = createTransaction(friend2, connectedUser, 300.0f, "description2");
             // When
-            List<TransactionResponseDto> transactions = transactionService.getTransactionResponseDtos();
+            Page<TransactionResponseDto> transactions = transactionService.getTransactionResponseDtos(PageRequest.of(1, 10));
             // Then
             List<TransactionResponseDto> expectedTransactionResponseDtos = List.of(
                     TransactionResponseDto.builder()

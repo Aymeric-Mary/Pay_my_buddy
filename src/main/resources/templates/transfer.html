@@ -1,32 +1,5 @@
 <div th:replace="fragments/header"></div>
-<nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
-    <div class="container-fluid d-fle justify-content-between">
-        <img class="d-block" th:src="@{img/logo.png}" alt="Logo of pay my buddy" style="width: 200px">
-        <div>
-            <p class="d-inline-block m-0 me-5">Welcome <span th:text="${connectedUser.firstname}"></span> - Balance :
-                <span th:text="${connectedUser.balance} + ' €'"></span></p>
-        </div>
-        <div class="d-flex justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Transfer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a id="logout" class="nav-link" href="/logout">Log off</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="fragments/nav"></div>
 <nav class="bg-light p-3" aria-label="breadcrumb">
     <ol class="breadcrumb m-0">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -80,27 +53,34 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="transaction : ${transactions}" class="py-3">
-            <th th:text="${transaction.user.firstname} + ' ' + ${transaction.user.lastname}"></th>
-            <td th:text="${transaction.description}"></td>
-            <td th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)} + ' €'"></td>
-            <td th:text="${#numbers.formatDecimal(transaction.fee, 1, 2)} + ' €'"></td>
-        </tr>
+        <div th:if="${transactions.hasContent()}">
+            <tr th:each="transaction : ${transactions.content}" class="py-3">
+                <th th:text="${transaction.user.firstname} + ' ' + ${transaction.user.lastname}"></th>
+                <td th:text="${transaction.description}"></td>
+                <td th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)} + ' €'"></td>
+                <td th:text="${#numbers.formatDecimal(transaction.fee, 1, 2)} + ' €'"></td>
+            </tr>
+        </div>
         </tbody>
     </table>
-    <!--
     <nav class="d-flex justify-content-center">
         <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#"><<</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">>></a></li>
+            <li class="page-item" th:if="${transactions.hasPrevious()}">
+                <a class="page-link" th:href="@{/transfer(page=${transactions.number})}"><<</a>
+            </li>
+            <li class="page-item"
+                th:each="pageNumber : ${#numbers.sequence(1, transactions.totalPages)}"
+                th:classappend="${pageNumber == transactions.number + 1 ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{/transfer(page=${pageNumber})}"
+                   th:text="${pageNumber}">
+                </a>
+            </li>
+            <li class="page-item" th:if="${transactions.hasNext()}">
+                <a class="page-link" th:href="@{/transfer(page=${transactions.number + 2})}">>></a>
+            </li>
         </ul>
     </nav>
-    -->
 </div>
 </div>
 <div id="add-connection" class="modal" tabindex="-1">
