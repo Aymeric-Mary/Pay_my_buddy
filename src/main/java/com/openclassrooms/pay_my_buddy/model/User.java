@@ -42,4 +42,7 @@ public class User {
     )
     @Builder.Default
     private List<User> connections = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private BankAccount bankAccount;
 }

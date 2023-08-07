@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -20,9 +22,13 @@ public class AuthService {
      * @return the user connected
      */
     public User getConnectedUser() {
+        return getOptionalConnectedUser()
+                .orElseThrow(() -> new NoSuchResourceException(User.class));
+    }
+
+    public Optional<User> getOptionalConnectedUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchResourceException(User.class, email));
+        return userRepository.findByEmail(email);
     }
 }

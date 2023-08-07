@@ -10,6 +10,14 @@ CREATE TABLE user
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE bank_account
+(
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id       BIGINT NOT NULL,
+    balance       FLOAT NOT NULL DEFAULT 0.00,
+    FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
 CREATE TABLE connection
 (
     id            BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -45,6 +53,18 @@ VALUES ('Jean', 'Dupont', 'jean.dupont@gmail.com', '$2a$12$otow12LtvKv4UDzar5c62
        ('Camille', 'Girard', 'camille.girard@gmail.com', '$2a$12$etfN0erphZWPRF2ZPZi2BuJwp58LisU.nKHGNEx101u7WjmWx49Ta', 2200.00, '2023-01-10 08:50:00'),
        ('Alexandre', 'Leroy', 'alexandre.leroy@gmail.com', '$2a$12$5RjOOIoB1M5jENeFuXsVd.h36GD8pK1s2WcjxVpVpiN9wlWkhMpX6', 2100.00, '2022-05-27 13:15:00'),
        ('Lucie', 'Lemaire', 'lucie.lemaire@gmail.com', '$2a$12$WqYiwgS6/AAzf6DVEK838uu3YM/0pd.nE00mO3Yt3HdTmaMAlGcOS', 1700.00, '2022-09-30 18:25:00');
+
+INSERT INTO bank_account (user_id, balance)
+VALUES (1, 1000.00),
+       (2, 1500.00),
+       (3, 2000.00),
+       (4, 2500.00),
+       (5, 1800.00),
+       (6, 1200.00),
+       (7, 900.00),
+       (8, 2200.00),
+       (9, 2100.00),
+       (10, 1700.00);
 
 INSERT INTO connection (user1_id, user2_id, creation_date)
 VALUES (1, 2, '2022-05-01 15:00:00'),

@@ -25,7 +25,7 @@ public class UserService {
      * @return a list of users
      */
     public List<User> getConnectableUsers() {
-        return userRepository.findConnectableUsers(getUserConnected());
+        return userRepository.findConnectableUsers(getConnectedUser());
     }
 
     /**
@@ -34,7 +34,7 @@ public class UserService {
      * @param addConnectionDto the connection to add
      */
     public void addConnection(AddConnectionDto addConnectionDto) {
-        User user = getUserConnected();
+        User user = getConnectedUser();
         User user2 = userRepository.findById(addConnectionDto.connectionId())
                 .orElseThrow(() -> new NoSuchResourceException(User.class, addConnectionDto.connectionId()));
         user.getConnections().add(user2);
@@ -47,7 +47,7 @@ public class UserService {
      * @return a list of users
      */
     public List<User> getConnections() {
-        return getUserConnected().getConnections();
+        return getConnectedUser().getConnections();
     }
 
     /**
@@ -61,7 +61,7 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchResourceException(User.class, id));
     }
 
-    private User getUserConnected() {
+    private User getConnectedUser() {
         return authService.getConnectedUser();
     }
 

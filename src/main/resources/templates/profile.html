@@ -1,0 +1,58 @@
+<div th:replace="fragments/header"></div>
+<div th:replace="fragments/nav"></div>
+<div class="container">
+    <h2>Balance</h2>
+    <div class="bg-light d-flex justify-content-center py-5">
+        <div class="w-100 px-5 d-flex justify-content-around">
+            <div>
+                <p class="text-center" th:text="'Balance : ' + ${#numbers.formatDecimal(connectedUser.balance, 1, 2)} + ' €'"></p>
+            </div>
+            <div>
+                <p class="text-center" th:text="'Bank account amount : ' + ${#numbers.formatDecimal(connectedUser.bankAccount.balance, 1, 2)} + ' €'"></p>
+            </div>
+        </div>
+    </div>
+    <h2>Deposit</h2>
+    <div class="bg-light d-flex justify-content-center py-5">
+        <div class="d-flex flex-column">
+            <div th:if="${depositSuccess}">
+                <p id="deposit-success" class="alert alert-success text-center">Deposit was successful</p>
+            </div>
+            <div th:if="${depositErrors}">
+                <div class="alert alert-danger text-center">
+                    <p class="m-0" th:each="error : ${depositErrors}" th:text="${error.defaultMessage}"></p>
+                </div>
+            </div>
+            <form class="d-flex justify-content-center" action="/deposit" method="post">
+                <div class="input-group">
+                    <input type="number" name="depositAmount" step="1" class="form-control" id="depositAmountInput"
+                           placeholder="0 €">
+                </div>
+                <button type="submit" class="btn btn-success" style="padding-left: 50px; padding-right: 50px">Deposit
+                </button>
+            </form>
+        </div>
+    </div>
+    <h2>Withdraw</h2>
+    <div class="bg-light d-flex justify-content-center py-5">
+        <div class="d-flex flex-column">
+            <div th:if="${withdrawSuccess}">
+                <p id="withdraw-success" class="alert alert-success text-center">Withdraw was succesfull</p>
+            </div>
+            <div th:if="${withdrawErrors}">
+                <div class="alert alert-danger text-center">
+                    <p class="m-0" th:each="error : ${withdrawErrors}" th:text="${error.defaultMessage}"></p>
+                </div>
+            </div>
+            <form class="d-flex justify-content-center" action="/withdraw" method="post">
+                <div class="input-group">
+                    <input type="number" name="withdrawAmount" step="1" class="form-control" id="withdrawAmountInput"
+                           placeholder="0 €">
+                </div>
+                <button type="submit" class="btn btn-success" style="padding-left: 50px; padding-right: 50px">Withdraw
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer"></div>

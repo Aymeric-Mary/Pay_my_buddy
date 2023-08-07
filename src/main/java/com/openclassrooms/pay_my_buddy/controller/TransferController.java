@@ -8,7 +8,6 @@ import com.openclassrooms.pay_my_buddy.model.User;
 import com.openclassrooms.pay_my_buddy.service.auth.AuthService;
 import com.openclassrooms.pay_my_buddy.service.transaction.TransactionService;
 import com.openclassrooms.pay_my_buddy.service.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,19 +38,15 @@ public class TransferController {
     private final int PAGE_SIZE = 1;
 
     @GetMapping("/transfer")
-    public ModelAndView transfer(HttpServletRequest request,
-                                 @RequestParam(defaultValue = "1") int page) {
-        User connectedUser = authService.getConnectedUser();
+    public ModelAndView transfer(@RequestParam(defaultValue = "1") int page) {
         List<UserDto> users = userMapper.entitiesToUserDtos(userService.getConnectableUsers());
         List<UserDto> connections = userMapper.entitiesToUserDtos(userService.getConnections());
         Page<TransactionResponseDto> transactions = transactionService.getTransactionResponseDtos(PageRequest.of(page - 1, PAGE_SIZE));
         ModelAndView mv = new ModelAndView("transfer");
         return mv.addAllObjects(Map.of(
-                "connectedUser", connectedUser,
                 "users", users,
                 "connections", connections,
-                "transactions", transactions,
-                "currentUri", request.getRequestURI()
+                "transactions", transactions
         ));
     }
 
