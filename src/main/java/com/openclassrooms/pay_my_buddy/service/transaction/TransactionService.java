@@ -32,7 +32,7 @@ public class TransactionService {
      * @param requestDto the transaction request dto
      * @return the transaction
      */
-    public Transaction createTransaction(User sender, TransactionRequestDto requestDto) {
+    public Transaction createTransaction(User sender, TransactionRequestDto requestDto) throws IllegalArgumentException {
         User receiver = userService.getUserById(requestDto.connectionId());
         Transaction transaction = transactionMapper.toEntity(sender, receiver, requestDto);
         userBalanceService.adjustUsersBalance(transaction);

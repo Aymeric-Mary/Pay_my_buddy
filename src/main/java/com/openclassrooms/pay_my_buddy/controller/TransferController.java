@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,9 +58,14 @@ public class TransferController {
             return new RedirectView("/transfer", true);
         }
         User connectedUser = authService.getConnectedUser();
-        transactionService.createTransaction(connectedUser, requestDto);
-        redirectAttributes.addFlashAttribute("success", true);
+        try {
+            transactionService.createTransaction(connectedUser, requestDto);
+            redirectAttributes.addFlashAttribute("success", true);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errors", List.of(
+                    new ObjectError("amount", e.getMessage())
+            ));
+        }
         return new RedirectView("/transfer", true);
     }
-
 }

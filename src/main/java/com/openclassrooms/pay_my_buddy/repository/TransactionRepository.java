@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    @Query("SELECT t FROM Transaction t WHERE t.sender = ?1 OR t.receiver = ?1")
+    @Query("SELECT t FROM Transaction t WHERE t.sender = ?1 OR t.receiver = ?1 ORDER BY t.sendDate DESC")
     Page<Transaction> findByUser(User user, Pageable pageable);
 }
