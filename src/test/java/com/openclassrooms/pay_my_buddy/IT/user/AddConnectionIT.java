@@ -1,6 +1,7 @@
 package com.openclassrooms.pay_my_buddy.IT.user;
 
 import com.openclassrooms.pay_my_buddy.DataTools;
+import com.openclassrooms.pay_my_buddy.model.Connection;
 import com.openclassrooms.pay_my_buddy.model.User;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -19,7 +20,7 @@ public class AddConnectionIT extends DataTools {
     void shouldAddConnection() throws Exception {
         // Given
         User connectedUser = createUser("test@gmail.com");
-        User connection = createUser("connection@gmail.com");
+        User user = createUser("connection@gmail.com");
         // When
         mockMvc.perform(post("/users/mine/connections")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -27,12 +28,14 @@ public class AddConnectionIT extends DataTools {
                                     {
                                         "connectionId":%d
                                      }
-                                """.formatted(connection.getId())))
+                                """.formatted(user.getId())))
                 // Then
                 .andExpect(status().isNoContent())
                 .andReturn();
         entityManager.clear();
-        assertThat(connectedUser.getConnections()).contains(connection);
+        assertThat(connectedUser.getConnections())
+                .usingRecursiveFieldByFieldElementComparator()
+                .contains(new Connection(connectedUser, user));
     }
 
     @Test

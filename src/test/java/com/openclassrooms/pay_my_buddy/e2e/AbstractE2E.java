@@ -91,18 +91,4 @@ public abstract class AbstractE2E {
         when(userServiceMock.getConnectableUsers()).thenReturn(connectableUsers);
     }
 
-    protected User createUser(String firstname, String lastname, String email){
-        User user = User.builder()
-                .firstname(firstname)
-                .lastname(lastname)
-                .email(email)
-                .build();
-        return userRepository.save(user);
-    }
-
-    protected void addConnection(User connectedUser, User connection) {
-        connectedUser.getConnections().add(connection);
-        userRepository.save(connectedUser);
-    }
-
 }

@@ -3,6 +3,7 @@ package com.openclassrooms.pay_my_buddy.UT.service.user;
 
 import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
 import com.openclassrooms.pay_my_buddy.exception.NoSuchResourceException;
+import com.openclassrooms.pay_my_buddy.model.Connection;
 import com.openclassrooms.pay_my_buddy.model.User;
 import com.openclassrooms.pay_my_buddy.repository.UserRepository;
 import com.openclassrooms.pay_my_buddy.service.auth.AuthService;
@@ -32,31 +33,28 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepositoryMock;
+
     @Mock
     private AuthService authServiceMock;
-
-    private User connectedUser;
-
-    @BeforeEach
-    public void setup() {
-        this.connectedUser = User.builder().id(1L).firstname("firstname").lastname("lastname").build();
-        when(authServiceMock.getConnectedUser()).thenReturn(this.connectedUser);
-    }
 
     @Nested
     class GetConnectableUsers {
         @Test
         public void testGetConnectableUsers() {
             // Given
-            List<User> connectableUsers = List.of(
-                    User.builder().id(2L).build(),
-                    User.builder().id(3L).build()
-            );
-            when(userRepositoryMock.findConnectableUsers(connectedUser)).thenReturn(connectableUsers);
+            User connectedUser = prepareMockConnecteduser();
+            User connectableUser = User.builder().id(2L).build();
+            User unconnectableuser = User.builder().id(3L).build();
+            connectedUser.setConnections(List.of(new Connection(connectedUser, unconnectableuser)));
+            unconnectableuser.setConnections(List.of(new Connection(connectedUser, unconnectableuser)));
+            List<User> users = List.of(connectableUser, unconnectableuser, connectedUser);
+            when(userRepositoryMock.findAll()).thenReturn(users);
             // When
             List<User> result = userService.getConnectableUsers();
             // Then
-            assertThat(result).isEqualTo(connectableUsers);
+            assertThat(result)
+                    .usingRecursiveFieldByFieldElementComparator()
+                    .containsExactly(connectableUser);
         }
     }
 
@@ -65,15 +63,16 @@ public class UserServiceTest {
         @Test
         public void testGetConnections() {
             // Given
-            List<User> connections = List.of(
-                    User.builder().id(2L).build(),
-                    User.builder().id(3L).build()
+            User connectedUser = prepareMockConnecteduser();
+            List<Connection> connections = List.of(
+                    new Connection(connectedUser, User.builder().id(2L).build()),
+                    new Connection(connectedUser, User.builder().id(3L).build())
             );
             connectedUser.setConnections(connections);
             // When
             List<User> result = userService.getConnections();
             // Then
-            assertThat(result).isEqualTo(connections);
+            assertThat(result).isEqualTo(connections.stream().map(Connection::getRequestReceiver).toList());
         }
     }
 
@@ -82,13 +81,17 @@ public class UserServiceTest {
         @Test
         public void testAddConnection_whenUserExist() {
             // Given
+            User connectedUser = prepareMockConnecteduser();
             AddConnectionDto addConnectionDto = new AddConnectionDto(2L);
-            User user2 = User.builder().id(2L).build();
-            when(userRepositoryMock.findById(2L)).thenReturn(Optional.of(user2));
+            User user = User.builder().id(2L).build();
+            Connection connection = new Connection(connectedUser, user);
+            when(userRepositoryMock.findById(2L)).thenReturn(Optional.of(user));
             // When
             userService.addConnection(addConnectionDto);
             // Then
-            assertThat(connectedUser.getConnections()).containsExactly(user2);
+            assertThat(connectedUser.getConnections())
+                    .usingRecursiveFieldByFieldElementComparator()
+                    .containsExactly(connection);
         }
 
         @Test
@@ -141,5 +144,11 @@ public class UserServiceTest {
                 assertEquals(2L, e.getId());
             }
         }
+    }
+
+    private User prepareMockConnecteduser() {
+        User connectedUser = User.builder().id(1L).firstname("firstname").lastname("lastname").build();
+        when(authServiceMock.getConnectedUser()).thenReturn(connectedUser);
+        return connectedUser;
     }
 }

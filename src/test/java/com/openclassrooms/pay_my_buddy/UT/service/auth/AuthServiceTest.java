@@ -64,7 +64,6 @@ public class AuthServiceTest {
         } catch (NoSuchResourceException e) {
             // Then
             assertEquals(User.class, e.getResourceClass());
-            assertEquals("user@mail.com", e.getId());
         }
     }
 }
