@@ -2,6 +2,7 @@ package com.openclassrooms.pay_my_buddy.service.user;
 
 import com.openclassrooms.pay_my_buddy.dto.AddConnectionDto;
 import com.openclassrooms.pay_my_buddy.exception.NoSuchResourceException;
+import com.openclassrooms.pay_my_buddy.model.Connection;
 import com.openclassrooms.pay_my_buddy.model.User;
 import com.openclassrooms.pay_my_buddy.repository.UserRepository;
 import com.openclassrooms.pay_my_buddy.service.auth.AuthService;
@@ -25,7 +26,11 @@ public class UserService {
      * @return a list of users
      */
     public List<User> getConnectableUsers() {
-        return userRepository.findConnectableUsers(getConnectedUser());
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> !user.equals(getConnectedUser()))
+                .filter(user -> getConnectedUser().getConnections().stream().noneMatch(connection -> connection.getRequestReceiver().equals(user)))
+                .toList();
     }
 
     /**
@@ -37,7 +42,7 @@ public class UserService {
         User user = getConnectedUser();
         User user2 = userRepository.findById(addConnectionDto.connectionId())
                 .orElseThrow(() -> new NoSuchResourceException(User.class, addConnectionDto.connectionId()));
-        user.getConnections().add(user2);
+        user.getConnections().add(new Connection(user, user2));
     }
 
 
@@ -47,7 +52,11 @@ public class UserService {
      * @return a list of users
      */
     public List<User> getConnections() {
-        return getConnectedUser().getConnections();
+        return getConnectedUser()
+                .getConnections()
+                .stream()
+                .map(Connection::getRequestReceiver)
+                .toList();
     }
 
     /**

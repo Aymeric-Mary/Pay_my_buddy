@@ -33,15 +33,9 @@ public class User {
 
     private Instant creationDate;
 
-    @ManyToMany
-    @JoinTable(
-            name = "connection",
-            joinColumns = @JoinColumn(name = "user1_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user2_id", referencedColumnName = "id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"user1_id", "user2_id"})
-    )
+    @OneToMany(mappedBy = "requestSender", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<User> connections = new ArrayList<>();
+    private List<Connection> connections = new ArrayList<>();
 
     @OneToOne(mappedBy = "user")
     private BankAccount bankAccount;

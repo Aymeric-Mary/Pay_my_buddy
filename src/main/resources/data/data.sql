@@ -21,11 +21,11 @@ CREATE TABLE bank_account
 CREATE TABLE connection
 (
     id            BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user1_id      BIGINT NOT NULL,
-    user2_id      BIGINT NOT NULL,
+    sender_id      BIGINT NOT NULL,
+    receiver_id      BIGINT NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user1_id) REFERENCES user (id),
-    FOREIGN KEY (user2_id) REFERENCES user (id)
+    FOREIGN KEY (sender_id) REFERENCES user (id),
+    FOREIGN KEY (receiver_id) REFERENCES user (id)
 );
 
 CREATE TABLE transaction
@@ -66,7 +66,7 @@ VALUES (1, 1000.00),
        (9, 2100.00),
        (10, 1700.00);
 
-INSERT INTO connection (user1_id, user2_id, creation_date)
+INSERT INTO connection (sender_id, receiver_id, creation_date)
 VALUES (1, 2, '2022-05-01 15:00:00'),
        (3, 4, '2022-06-15 14:30:00'),
        (5, 6, '2022-10-15 10:20:00'),
