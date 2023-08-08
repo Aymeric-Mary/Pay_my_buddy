@@ -35,7 +35,7 @@ public class TransferController {
     private final TransactionService transactionService;
     private final AuthService authService;
 
-    private final int PAGE_SIZE = 1;
+    private final int PAGE_SIZE = 5;
 
     @GetMapping("/transfer")
     public ModelAndView transfer(@RequestParam(defaultValue = "1") int page) {
